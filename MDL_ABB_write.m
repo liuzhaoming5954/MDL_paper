@@ -13,12 +13,12 @@ function MDL_ABB_write()
    if (clientID>-1)
       disp('Connected to remote API server');
        % get handle for Baxter_rightArm_joint1 
-      [res,handle_ABBjoint1] = vrep.simxGetObjectHandle(clientID,'LBR_iiwa_14_R820_joint1',vrep.simx_opmode_oneshot_wait); 
-      [res,handle_ABBjoint2] = vrep.simxGetObjectHandle(clientID,'LBR_iiwa_14_R820_joint2',vrep.simx_opmode_oneshot_wait); 
-      [res,handle_ABBjoint3] = vrep.simxGetObjectHandle(clientID,'LBR_iiwa_14_R820_joint3',vrep.simx_opmode_oneshot_wait); 
-      [res,handle_ABBjoint4] = vrep.simxGetObjectHandle(clientID,'LBR_iiwa_14_R820_joint4',vrep.simx_opmode_oneshot_wait); 
-      [res,handle_ABBjoint5] = vrep.simxGetObjectHandle(clientID,'LBR_iiwa_14_R820_joint5',vrep.simx_opmode_oneshot_wait); 
-      [res,handle_ABBjoint6] = vrep.simxGetObjectHandle(clientID,'LBR_iiwa_14_R820_joint6',vrep.simx_opmode_oneshot_wait); 
+      [res,handle_ABBjoint1] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint1',vrep.simx_opmode_oneshot_wait); 
+      [res,handle_ABBjoint2] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint2',vrep.simx_opmode_oneshot_wait); 
+      [res,handle_ABBjoint3] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint3',vrep.simx_opmode_oneshot_wait); 
+      [res,handle_ABBjoint4] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint4',vrep.simx_opmode_oneshot_wait); 
+      [res,handle_ABBjoint5] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint5',vrep.simx_opmode_oneshot_wait); 
+      [res,handle_ABBjoint6] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint6',vrep.simx_opmode_oneshot_wait); 
      
     
       %Set the position of every joint

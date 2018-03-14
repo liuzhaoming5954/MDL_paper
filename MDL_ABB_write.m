@@ -3,7 +3,8 @@ function MDL_ABB_write()
    % vrep=remApi('remoteApi','extApi.h'); % using the header (requires a compiler)
    vrep=remApi('remoteApi'); % using the prototype file (remoteApiProto.m)
    vrep.simxFinish(-1); % just in case, close all opened connections
-   clientID=vrep.simxStart('127.0.0.1',19999,true,true,5000,5);
+   % clientID=vrep.simxStart('127.0.0.1',19999,true,true,5000,5);
+   clientID=vrep.simxStart('127.0.0.1',19997,true,true,5000,5);
   
    %read the joint angle data from 'angle.txt'
       jointValue=load('MDL_angle.txt');   %A matrix of 7 x 150.Each column vector recorded the changes of each joint Angle  
@@ -12,13 +13,14 @@ function MDL_ABB_write()
       
    if (clientID>-1)
       disp('Connected to remote API server');
+      vrep.simxStartSimulation(clientID,vrep.simx_opmode_oneshot);%这句话是用于启动仿真，相当于你点击vrep的启动仿真按钮
        % get handle for Baxter_rightArm_joint1 
       [res,handle_ABBjoint1] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint1',vrep.simx_opmode_oneshot_wait); 
       [res,handle_ABBjoint2] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint2',vrep.simx_opmode_oneshot_wait); 
       [res,handle_ABBjoint3] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint3',vrep.simx_opmode_oneshot_wait); 
       [res,handle_ABBjoint4] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint4',vrep.simx_opmode_oneshot_wait); 
       [res,handle_ABBjoint5] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint5',vrep.simx_opmode_oneshot_wait); 
-      [res,handle_ABBjoint6] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint6',vrep.simx_opmode_oneshot_wait); 
+      %[res,handle_ABBjoint6] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint6',vrep.simx_opmode_oneshot_wait); 
      
     
       %Set the position of every joint
@@ -30,9 +32,9 @@ function MDL_ABB_write()
          vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint3,jointValue(i,3),vrep.simx_opmode_oneshot); 
          vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint4,jointValue(i,4),vrep.simx_opmode_oneshot);
          vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint5,jointValue(i,5),vrep.simx_opmode_oneshot);
-         vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint6,jointValue(i,6),vrep.simx_opmode_oneshot);
-        
-         disp('One step');
+         %vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint6,jointValue(i,6),vrep.simx_opmode_oneshot);
+        i
+         
          vrep.simxPauseCommunication(clientID,0);
          pause(0.1);
           end

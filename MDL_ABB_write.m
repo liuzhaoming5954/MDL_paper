@@ -30,7 +30,7 @@ function MDL_ABB_write()
          vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint1,jointValue(i,1)*3.14/180,vrep.simx_opmode_oneshot); 
          vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint2,jointValue(i,2)*3.14/180,vrep.simx_opmode_oneshot); 
          vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint3,jointValue(i,3)*3.14/180,vrep.simx_opmode_oneshot); 
-         vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint4,jointValue(i,4)*3.14/180,vrep.simx_opmode_oneshot);
+         vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint4,0,vrep.simx_opmode_oneshot);
          vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint5,jointValue(i,5)*3.14/180,vrep.simx_opmode_oneshot);
          vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint6,0,vrep.simx_opmode_oneshot);
          %vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint6,jointValue(i,6)*3.14/180,vrep.simx_opmode_oneshot);

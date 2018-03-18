@@ -117,8 +117,8 @@ for qi=1:4
             end
         end
     end
-    ur_e{qi,1} = u_re';
-    ts_r{qi,1} = ts';
+    ur_e{qi,1} = u_re'; % 各轴时间数据
+    ts_r{qi,1} = ts'; % 各轴运行关节角
 end
 
 %% 显示重构信号

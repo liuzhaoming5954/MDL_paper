@@ -29,15 +29,24 @@ function MDL_ABB_write()
       joint2 = unique(joint2,'rows');
       joint3 = unique(joint3,'rows');
       joint5 = unique(joint5,'rows');
+%       joint1(:,1)=joint1(:,1)*1000;
+%       joint2(:,1)=joint2(:,1)*1000;
+%       joint3(:,1)=joint3(:,1)*1000;
+%       joint5(:,1)=joint5(:,1)*1000;
+      % 找出时间总长度
+      [x , ~]=size(joint1);
+      t = joint1(x,1); % t为总时长 
       
-      %%
-      [m n]=size(jointValue);
-      
-      
+      %% 开始仿真
+      [m1,~]=size(joint1);
+      [m2,~]=size(joint2);
+      [m3,~]=size(joint3);
+      [m5,~]=size(joint5);
+           
    if (clientID>-1)
       disp('Connected to remote API server');
       vrep.simxStartSimulation(clientID,vrep.simx_opmode_oneshot);%这句话是用于启动仿真，相当于你点击vrep的启动仿真按钮
-       % get handle for Baxter_rightArm_joint1 
+       % get handle for ABB IRB4600_joint
       [res,handle_ABBjoint1] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint1',vrep.simx_opmode_oneshot_wait); 
       [res,handle_ABBjoint2] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint2',vrep.simx_opmode_oneshot_wait); 
       [res,handle_ABBjoint3] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint3',vrep.simx_opmode_oneshot_wait); 
@@ -45,24 +54,57 @@ function MDL_ABB_write()
       [res,handle_ABBjoint5] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint5',vrep.simx_opmode_oneshot_wait); 
       [res,handle_ABBjoint6] = vrep.simxGetObjectHandle(clientID,'IRB4600_joint6',vrep.simx_opmode_oneshot_wait); 
     
+      i1=1;i2=1;i3=1;i5=1;
+      
       %Set the position of every joint
-        if(vrep.simxGetConnectionId(clientID) ~= -1),  % while v-rep connection is still active
-          for i=1:m
-              vrep.simxPauseCommunication(clientID,1);      
-              vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint1,jointValue(i,1)*3.14/180,vrep.simx_opmode_oneshot); 
-              vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint2,jointValue(i,2)*3.14/180,vrep.simx_opmode_oneshot); 
-              vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint3,jointValue(i,3)*3.14/180,vrep.simx_opmode_oneshot); 
-              vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint4,0,vrep.simx_opmode_oneshot);
-              vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint5,jointValue(i,5)*3.14/180,vrep.simx_opmode_oneshot);
-              %vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint6,0,vrep.simx_opmode_oneshot);
+      if(vrep.simxGetConnectionId(clientID) ~= -1)  % if v-rep connection is still active
+          for i=0:0.001:t   
+              vrep.simxPauseCommunication(clientID,1); 
+              if(abs(joint1(i1,1)-i)<0.0000001)
+                  vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint1,joint1(i1,2)*3.14/180,vrep.simx_opmode_oneshot);
+                  i1=i1+1;
+              end
+              if(abs(joint2(i2,1)-i)<0.0000001)
+                  vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint2,joint2(i2,2)*3.14/180,vrep.simx_opmode_oneshot);
+                  i2=i2+1;
+              end
+              if(abs(joint3(i3,1)-i)<0.0000001)
+                  vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint3,joint3(i3,2)*3.14/180,vrep.simx_opmode_oneshot);
+                  i3=i3+1;
+              end
+              if(abs(joint5(i5,1)-i)<0.0000001)
+                  vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint5,joint5(i5,2)*3.14/180,vrep.simx_opmode_oneshot);
+                  i5=i5+1;
+              end
+%               vrep.simxPauseCommunication(clientID,1); 
+%               vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint1,joint1(i1,2)*3.14/180,vrep.simx_opmode_oneshot);
+%               vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint2,joint2(i2,2)*3.14/180,vrep.simx_opmode_oneshot);
+%               vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint3,joint3(i3,2)*3.14/180,vrep.simx_opmode_oneshot);
+%               vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint5,joint5(i5,2)*3.14/180,vrep.simx_opmode_oneshot);
               vrep.simxPauseCommunication(clientID,0);
               vrep.simxSynchronousTrigger(clientID);
               vrep.simxGetPingTime(clientID);
               disp(i);              
-              % pause(0.1);
+              %pause(0.01);
           end
-         % vrep.simxGetConnectionId(clientID);
-        end         
+
+%         if(vrep.simxGetConnectionId(clientID) ~= -1),  % while v-rep connection is still active
+%           for i=1:m
+%               vrep.simxPauseCommunication(clientID,1);      
+%               vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint1,jointValue(i,1)*3.14/180,vrep.simx_opmode_oneshot); 
+%               vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint2,jointValue(i,2)*3.14/180,vrep.simx_opmode_oneshot); 
+%               vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint3,jointValue(i,3)*3.14/180,vrep.simx_opmode_oneshot); 
+%               vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint4,0,vrep.simx_opmode_oneshot);
+%               vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint5,jointValue(i,5)*3.14/180,vrep.simx_opmode_oneshot);
+%               %vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint6,0,vrep.simx_opmode_oneshot);
+%               vrep.simxPauseCommunication(clientID,0);
+%               vrep.simxSynchronousTrigger(clientID);
+%               vrep.simxGetPingTime(clientID);
+%               disp(i);              
+%               % pause(0.1);
+%           end
+%          % vrep.simxGetConnectionId(clientID);
+%         end         
        
      % Before closing the connection to V-REP, make sure that the last command sent out had time to arrive. You can guarantee this with (for example):
      vrep.simxGetPingTime(clientID);

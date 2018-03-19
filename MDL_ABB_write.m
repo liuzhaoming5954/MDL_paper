@@ -29,10 +29,6 @@ function MDL_ABB_write()
       joint2 = unique(joint2,'rows');
       joint3 = unique(joint3,'rows');
       joint5 = unique(joint5,'rows');
-%       joint1(:,1)=joint1(:,1)*1000;
-%       joint2(:,1)=joint2(:,1)*1000;
-%       joint3(:,1)=joint3(:,1)*1000;
-%       joint5(:,1)=joint5(:,1)*1000;
       % 找出时间总长度
       [x , ~]=size(joint1);
       t = joint1(x,1); % t为总时长 
@@ -76,16 +72,11 @@ function MDL_ABB_write()
                   vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint5,joint5(i5,2)*3.14/180,vrep.simx_opmode_oneshot);
                   i5=i5+1;
               end
-%               vrep.simxPauseCommunication(clientID,1); 
-%               vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint1,joint1(i1,2)*3.14/180,vrep.simx_opmode_oneshot);
-%               vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint2,joint2(i2,2)*3.14/180,vrep.simx_opmode_oneshot);
-%               vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint3,joint3(i3,2)*3.14/180,vrep.simx_opmode_oneshot);
-%               vrep.simxSetJointTargetPosition(clientID,handle_ABBjoint5,joint5(i5,2)*3.14/180,vrep.simx_opmode_oneshot);
+
               vrep.simxPauseCommunication(clientID,0);
               vrep.simxSynchronousTrigger(clientID);
               vrep.simxGetPingTime(clientID);
               disp(i);              
-              %pause(0.01);
           end
 
 %         if(vrep.simxGetConnectionId(clientID) ~= -1),  % while v-rep connection is still active
